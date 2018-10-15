@@ -3,7 +3,7 @@
 
 OUTPATH = build
 PROJECT = $(OUTPATH)/robot
-OPENOCD_SCRIPT_DIR ?= /usr/share/openocd/scripts
+OPENOCD_SCRIPT_DIR ?= /usr/local/Cellar/open-ocd/0.10.0/share/openocd/scripts
 HEAP_SIZE = 0x500
 
 ################
