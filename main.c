@@ -3,12 +3,13 @@
 #include "stm32f4xx_ll_bus.h"
 #include "stm32f4xx_ll_gpio.h"
 #include "stm32f4xx_ll_usart.h"
-#include <stdio.h>
 
+#include <stdio.h>
 #include "FreeRTOS.h"
 #include "task.h"
 #include "io_syscall.h"
-#include "stm32f4xx.h"
+#include "terminal.h"
+#include "int_dispatcher.h"
 
 #include "Board.h"
 #include "Communication.h"
@@ -84,32 +85,31 @@ static void gpio_config(void)
         LL_GPIO_SetPinMode(GPIOD, LL_GPIO_PIN_13, LL_GPIO_MODE_OUTPUT);
 }
 
-void test_FPU_test(void *p)
+static void uart2dma_config(char *ch_buf)
 {
-        (void) p;
-        int num1 = 0;
-        int num2 = 0;
-        int ret = 0;
-
-        while (1) {
-                LL_GPIO_TogglePin(GPIOD, LL_GPIO_PIN_13);
-                vTaskDelay(1000);
-        }
         return;
 }
-
-StackType_t fpuTaskStack[1024];
-StaticTask_t fpuTaskBuffer;
 
 int main() {
         rcc_config();
         gpio_config();
         NVIC_SetPriorityGrouping(4U);
 
-        xTaskCreateStatic(test_FPU_test, "FPU", 1024, NULL, 1, fpuTaskStack,
-                          &fpuTaskBuffer);
-        vTaskStartScheduler();
+        /*
+         * Set parameters for terminal task
+         */
+        terminal_task_t term_param = {
+                .dev = USART2,
+                .uart2dma_init = uart2dma_config,
+                .int_line = USART2_IRQn,
+        };
 
+        xTaskCreateStatic(interrupt_manager, "INT_MAN", INT_MAN_STACK_DEPTH,
+                          NULL, 1, int_dispatcher_ts, &int_dispatcher_tb);
+        xTaskCreateStatic(terminal_manager, "TERM_MAN", TERM_MAN_STACK_DEPTH,
+                          &(term_param), 2, terminal_manager_ts,
+                          &terminal_manager_tb);
+        vTaskStartScheduler();
         return 0;
 }
 

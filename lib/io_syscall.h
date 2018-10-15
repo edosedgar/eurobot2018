@@ -5,6 +5,6 @@
 
 USART_TypeDef *chardev;
 
-int set_chardev(USART_TypeDef *cd);
+int iosysc_setdev(USART_TypeDef *cd);
 
 #endif

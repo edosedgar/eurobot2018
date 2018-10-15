@@ -14,7 +14,7 @@ SOURCES_S = core/startup_stm32f407xx.s
 SOURCES_RTOS = $(wildcard freertos/*.c freertos/portable/GCC/ARM_CM4F/*.c)
 SOURCES_RTOS += $(wildcard freertos/portable/MemMang/*.c)
 
-SOURCES_C = $(wildcard *.c core/*.c plib/*.c lib/*.c)
+SOURCES_C = $(wildcard *.c core/*.c plib/*.c lib/*.c old/*.c)
 SOURCES_C += $(SOURCES_RTOS)
 
 SOURCES = $(SOURCES_S) $(SOURCES_C)
@@ -23,7 +23,7 @@ OBJS = $(SOURCES_S:.s=.o) $(SOURCES_C:.c=.o)
 # Includes and Defines
 
 INCLUDES_RTOS = -Ifreertos -Ifreertos/include -Ifreertos/portable/GCC/ARM_CM4F
-INCLUDES = -Icore -Iplib -Ilib
+INCLUDES = -Icore -Iplib -Ilib -Iold
 INCLUDES += $(INCLUDES_RTOS)
 
 DEFINES = -DSTM32 -DSTM32F4 -DSTM32F407xx -DHEAP_SIZE=$(HEAP_SIZE)
@@ -103,7 +103,6 @@ gdb-st-util: $(PROJECT).elf
 $(PROJECT).elf: $(OBJS)
 
 %.elf:
-	echo $(SOURCES_C)
 	$(LD) $(OBJS) $(LDFLAGS) -o $@
 	$(SIZE) -A $@
 

@@ -7,7 +7,7 @@
 #include <sys/stat.h>
 #include <string.h>
 
-int set_chardev(USART_TypeDef *cd)
+int iosysc_setdev(USART_TypeDef *cd)
 {
         chardev = cd;
         return 0;
