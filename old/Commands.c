@@ -32,6 +32,7 @@ void checkCommandAndExecute()
 			// Get motor Number and shift it
 			uint8_t  motorNumber = inputCommand.params[0];
 			motorNumber = motorNumber - 1;
+
 			float dutycicle =  *( float*)(inputCommand.params + 1);
 			
 			// Set pwm

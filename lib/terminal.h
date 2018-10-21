@@ -18,7 +18,7 @@ extern void (* const commands_handlers[UPPER_BOUND_COMMANDS])(char *);
 typedef struct {
         USART_TypeDef *dev;
         int int_line;
-        void (*uart2dma_init)(char *);
+        void (*uart_dma_init)(char *);
         char *buffer;
         char *com_args;
         char *com_resp;

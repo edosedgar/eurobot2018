@@ -32,7 +32,7 @@ DEFINES = -DSTM32 -DSTM32F4 -DSTM32F407xx -DHEAP_SIZE=$(HEAP_SIZE)
 
 PREFIX = arm-none-eabi
 
-CC = $(PREFIX)-gcc
+CC = $(PREFIX)-gcc -w -I
 AS = $(PREFIX)-as
 AR = $(PREFIX)-ar
 LD = $(PREFIX)-gcc
@@ -58,7 +58,7 @@ CFLAGS_EXTRA = -nostartfiles -nodefaultlibs -nostdlib\
 
 CFLAGS += $(DEFINES) $(MCUFLAGS) $(DEBUG_OPTIMIZE_FLAGS) $(CFLAGS_EXTRA) $(INCLUDES)
 
-LDFLAGS = -static $(MCUFLAGS) -Wl,--start-group -lgcc -lc -lg -Wl,--end-group \
+LDFLAGS = -static $(MCUFLAGS) -Wl,--start-group -lgcc -lc -lg -lm -Wl,--end-group \
 	  -Wl,--gc-sections -T STM32F407VGTx_FLASH.ld -specs=nano.specs \
 	  -u _printf_float
 	  #-u _scanf_float

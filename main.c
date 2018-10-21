@@ -9,7 +9,8 @@
 #include "task.h"
 #include "io_syscall.h"
 #include "terminal.h"
-#include "int_dispatcher.h"
+#include "gpio_map.h"
+#include "peripheral.h"
 
 #include "Board.h"
 #include "Communication.h"
@@ -83,11 +84,22 @@ static void gpio_config(void)
 {
         LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOD);
         LL_GPIO_SetPinMode(GPIOD, LL_GPIO_PIN_13, LL_GPIO_MODE_OUTPUT);
-}
 
-static void uart2dma_config(char *ch_buf)
-{
-        return;
+        /* Init terminal pins */
+        LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOB);
+
+        LL_GPIO_SetAFPin_0_7(TERM_USART_TX_PORT, TERM_USART_TX_PIN, TERM_USART_PIN_AF);
+        LL_GPIO_SetPinMode(TERM_USART_TX_PORT, TERM_USART_TX_PIN, LL_GPIO_MODE_ALTERNATE);
+        LL_GPIO_SetPinOutputType(TERM_USART_TX_PORT, TERM_USART_TX_PIN, TERM_USART_OUTPUT_TYPE);
+        LL_GPIO_SetPinPull(TERM_USART_TX_PORT, TERM_USART_TX_PIN, TERM_USART_PULL);
+        LL_GPIO_SetPinSpeed(TERM_USART_TX_PORT, TERM_USART_TX_PIN, TERM_USART_SPEED);
+
+        LL_GPIO_SetAFPin_0_7(TERM_USART_RX_PORT, TERM_USART_RX_PIN, TERM_USART_PIN_AF);
+        LL_GPIO_SetPinMode(TERM_USART_RX_PORT, TERM_USART_RX_PIN, LL_GPIO_MODE_ALTERNATE);
+        LL_GPIO_SetPinOutputType(TERM_USART_RX_PORT, TERM_USART_RX_PIN, TERM_USART_OUTPUT_TYPE);
+        LL_GPIO_SetPinPull(TERM_USART_RX_PORT, TERM_USART_RX_PIN, TERM_USART_PULL);
+        LL_GPIO_SetPinSpeed(TERM_USART_RX_PORT, TERM_USART_RX_PIN, TERM_USART_SPEED);
+
 }
 
 int main() {
@@ -95,20 +107,8 @@ int main() {
         gpio_config();
         NVIC_SetPriorityGrouping(4U);
 
-        /*
-         * Set parameters for terminal task
-         */
-        terminal_task_t term_param = {
-                .dev = USART2,
-                .uart2dma_init = uart2dma_config,
-                .int_line = USART2_IRQn,
-        };
-
-        xTaskCreateStatic(interrupt_manager, "INT_MAN", INT_MAN_STACK_DEPTH,
-                          NULL, 1, int_dispatcher_ts, &int_dispatcher_tb);
         xTaskCreateStatic(terminal_manager, "TERM_MAN", TERM_MAN_STACK_DEPTH,
-                          &(term_param), 2, terminal_manager_ts,
-                          &terminal_manager_tb);
+                          NULL, 2, terminal_manager_ts, &terminal_manager_tb);
         vTaskStartScheduler();
         return 0;
 }
@@ -121,7 +121,7 @@ int maina()
         initManipulators();
         // Turn on Forward kinematics calculations and Collision avoidance
         Robot.forwardKinCalcStatusFlag = 0x01;
-        Robot.collisionAvoidanceStatusFlag = 0x01;
+        Robot.collisionAvoidanceStatusFlag = 0x00;
         while (1)
         {
                 switch(getPackage())
