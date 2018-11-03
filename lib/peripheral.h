@@ -56,12 +56,22 @@
 
 /*
  * Motor kinematics timer configuration
- * APB1_CLK = 42000000, TIM_ARR = 42000, Fpwm = 1KHz
+ * APB1_CLK = 42000000, TIM_ARR = 42000, TIM_PSC = 1, Fpwm = 1KHz
  */
 #define MOTOR_TIM                       TIM4
-#define MOTOR_TIM_PERIPH_PRESCALER      4
 #define MOTOR_PWM_TIM_ARR               42000
 #define MOTOR_PWM_TIM_CCR_INIT          4200
 #define MOTOR_PWM_TIM_PSC               1
+
+/*
+ * Collision avoidance configuration
+ * Timer configuration
+ * APB1_CLK = 42000000, TIM_ARR = 42000, TIM_PSC = 50, Fpwm = 1KHz
+ */
+#define COL_AVOID_TIM                   TIM14
+#define COL_AVOID_TIM_IRQN              TIM8_TRG_COM_TIM14_IRQn
+#define COL_AVOID_TIM_IRQN_PRIORITY     (configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY + 2)
+#define COL_AVOID_TIM_ARR               42000
+#define COL_AVOID_TIM_PSC               50
 
 #endif

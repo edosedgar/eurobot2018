@@ -10,11 +10,12 @@
 #include "io_syscall.h"
 #include "terminal.h"
 #include "motor_kinematics.h"
+#include "collision_avoidance.h"
 
 #include "Board.h"
 #include "Communication.h"
 #include "Manipulators.h"
-#include "Collision_avoidance.h"
+#include "Collision_avoidance_old.h"
 
 // Struct with Robot's status
 extern RobotStatus Robot;
@@ -95,6 +96,9 @@ int main() {
                           NULL, 2, terminal_manager_ts, &terminal_manager_tb);
         xTaskCreateStatic(motor_kinematics, "MOTOR_KIN", MOTOR_KIN_STACK_DEPTH,
                           NULL, 2, motor_kinematics_ts, &motor_kinematics_tb);
+        xTaskCreateStatic(collision_avoidance, "COL_AVOID",
+                          COL_AVOID_STACK_DEPTH, NULL, 2, collision_avoidance_ts,
+                          &collision_avoidance_tb);
 
         vTaskStartScheduler();
         return 0;

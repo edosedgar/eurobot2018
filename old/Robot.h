@@ -7,7 +7,7 @@
 #include "stdlib.h"
 #include "math.h"
 #include "Manipulators.h"
-#include "Collision_avoidance.h"
+#include "Collision_avoidance_old.h"
 
 // Encoder imitation mode
 //#define ENCODER_IMITATION

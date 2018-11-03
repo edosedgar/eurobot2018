@@ -137,7 +137,7 @@ void TIM7_IRQHandler()
 //}
 
 // Interrupt handler for collision avoidance
-void TIM8_TRG_COM_TIM14_IRQHandler(void)
+__attribute__((weak)) void TIM8_TRG_COM_TIM14_IRQHandler(void)
 {
 	if (COLL_AVOID_TIM_MODULE->SR & TIM_SR_UIF)
 	{
