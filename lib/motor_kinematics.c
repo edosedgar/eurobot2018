@@ -335,7 +335,7 @@ int cmd_set_pwm(void *args)
         if (!mk_ctrl)
                 goto error_set_pwm;
         if (SET_PWM_ARGS_ERR(cmd_args))
-               goto error_set_pwm;
+                goto error_set_pwm;
         /*
          * Update control structure
          */

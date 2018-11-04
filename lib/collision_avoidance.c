@@ -10,6 +10,11 @@
 static TaskHandle_t xTaskToNotify;
 
 /*
+ * Private variable for switching on/off collision avoidance
+ */
+static col_avoid_switch col_av_sw;
+
+/*
  * Set of private helper functions
  */
  static void col_av_hw_config()
@@ -43,6 +48,7 @@ void collision_avoidance(void *arg)
         (void) arg;
 
         xTaskToNotify = xTaskGetCurrentTaskHandle();
+        col_av_sw = COL_AVOID_ON;
         col_av_hw_config();
 
         while (1) {
@@ -53,9 +59,11 @@ void collision_avoidance(void *arg)
                  */
 
                 /*
-                 * Enable timer in one pulse mode after processing
+                 * Enable timer in one pulse mode after processing, if collision
+                 * avoidance is turned on
                  */
-                LL_TIM_EnableCounter(COL_AVOID_TIM);
+                if (col_av_sw == COL_AVOID_ON)
+                        LL_TIM_EnableCounter(COL_AVOID_TIM);
         }
         return;
 }
@@ -66,11 +74,34 @@ void collision_avoidance(void *arg)
 void TIM8_TRG_COM_TIM14_IRQHandler(void)
 {
         BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-        if (LL_TIM_IsActiveFlag_UPDATE(COL_AVOID_TIM)){
+        if (LL_TIM_IsActiveFlag_UPDATE(COL_AVOID_TIM)) {
                 LL_TIM_ClearFlag_UPDATE(COL_AVOID_TIM);
                 vTaskNotifyGiveFromISR(xTaskToNotify,
                                        &xHigherPriorityTaskWoken);
         }
 
         portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+}
+
+/*
+ * Set of collision avoidance related handlers for terminal
+ */
+
+/*
+ * Collision avoidance switch command
+ * Input: 0 - switch off / other - switch on
+ * Output: OK
+ */
+int cmd_collision_avoidance_switch(void *args)
+{
+        uint8_t com_arg = *(uint8_t *)args;
+
+        if (com_arg) {
+                col_av_sw = COL_AVOID_ON;
+                xTaskNotifyGive(xTaskToNotify);
+        }
+        else
+                col_av_sw = COL_AVOID_OFF;
+        memcpy(args, "OK", 3);
+        return 3;
 }

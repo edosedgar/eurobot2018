@@ -4,6 +4,14 @@
 #include "FreeRTOS.h"
 
 /*
+ * Collision avoidance switch
+ */
+typedef enum {
+        COL_AVOID_OFF,
+        COL_AVOID_ON
+} col_avoid_switch;
+
+/*
  * Memory for collision avoidance task
  */
 #define COL_AVOID_STACK_DEPTH    1024
