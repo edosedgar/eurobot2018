@@ -7,7 +7,7 @@ uint32_t timeInOneTenthOfMillisecond = 0x00;
 
 
 // Interrupt handler for motor control
-void TIM6_DAC_IRQHandler(void)
+__attribute__((weak)) void TIM6_DAC_IRQHandler(void)
 {
 	if (MOTOR_CONTROL_TIM_MODULE->SR & TIM_SR_UIF)
 	{

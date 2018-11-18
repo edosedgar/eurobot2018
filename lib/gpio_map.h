@@ -4,7 +4,9 @@
 #include "stm32f407xx.h"
 #include "stm32f4xx_ll_gpio.h"
 
-/* terminal UART pinout */
+/*
+ * Terminal UART pinout
+ */
 #define TERM_USART_TX_PORT                  GPIOB
 #define TERM_USART_TX_PIN                   LL_GPIO_PIN_6
 #define TERM_USART_RX_PORT                  GPIOB
@@ -33,5 +35,27 @@
 #define MOTOR_CH3_DIR_PIN                   LL_GPIO_PIN_10
 #define MOTOR_CH4_DIR_PORT                  GPIOE
 #define MOTOR_CH4_DIR_PIN                   LL_GPIO_PIN_14
+
+/*
+ * Odometry pinout
+ * Encoder pins
+ */
+#define ENCODER_1_CHA_PORT                  GPIOB
+#define ENCODER_1_CHA_PIN                   LL_GPIO_PIN_3
+#define ENCODER_1_CHB_PORT                  GPIOA
+#define ENCODER_1_CHB_PIN                   LL_GPIO_PIN_15
+#define ENCODER_1_PIN_AF                    LL_GPIO_AF_1
+
+#define ENCODER_2_CHA_PORT                  GPIOA
+#define ENCODER_2_CHA_PIN                   LL_GPIO_PIN_6
+#define ENCODER_2_CHB_PORT                  GPIOA
+#define ENCODER_2_CHB_PIN                   LL_GPIO_PIN_7
+#define ENCODER_2_PIN_AF                    LL_GPIO_AF_2
+
+#define ENCODER_3_CHA_PORT                  GPIOE
+#define ENCODER_3_CHA_PIN                   LL_GPIO_PIN_11
+#define ENCODER_3_CHB_PORT                  GPIOE
+#define ENCODER_3_CHB_PIN                   LL_GPIO_PIN_9
+#define ENCODER_3_PIN_AF                    LL_GPIO_AF_1
 
 #endif
