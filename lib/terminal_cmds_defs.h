@@ -1,3 +1,6 @@
 TERM_CMD_DEF(0x01, ECHO,                echo_handler)
 TERM_CMD_DEF(0x03, SET_PWM,             set_pwm)
 TERM_CMD_DEF(0x08, SET_SPEED,           set_speed)
+TERM_CMD_DEF(0x09, GET_SPEED,           get_speed)
+TERM_CMD_DEF(0x0E, SET_GLOBAL_COORD,    set_coord)
+TERM_CMD_DEF(0x0F, GET_GLOBAL_COORD,    get_coord)

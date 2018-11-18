@@ -10,6 +10,7 @@
 #include "io_syscall.h"
 #include "terminal.h"
 #include "motor_kinematics.h"
+#include "odometry.h"
 
 #include "Board.h"
 #include "Communication.h"
@@ -95,6 +96,8 @@ int main() {
                           NULL, 2, terminal_manager_ts, &terminal_manager_tb);
         xTaskCreateStatic(motor_kinematics, "MOTOR_KIN", MOTOR_KIN_STACK_DEPTH,
                           NULL, 2, motor_kinematics_ts, &motor_kinematics_tb);
+        xTaskCreateStatic(odometry, "ODOMETRY", ODOMETRY_STACK_DEPTH,
+                          NULL, 2, odometry_ts, &odometry_tb);
 
         vTaskStartScheduler();
         return 0;

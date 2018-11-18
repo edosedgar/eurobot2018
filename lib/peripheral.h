@@ -64,4 +64,28 @@
 #define MOTOR_PWM_TIM_CCR_INIT          4200
 #define MOTOR_PWM_TIM_PSC               1
 
+/*
+ * Odometry configuration
+ * Encoder times configuration
+ */
+#define ENCODER_TIM_CNT_INITIAL_VALUE   0x7530
+#define ENCODER_TIM_ARR                 0xffff
+
+#define ENCODER_1_TIM_MODULE            TIM2
+#define ENCODER_1_CNT                   ((uint16_t *)&(ENCODER_1_TIM_MODULE->CNT))
+#define ENCODER_2_TIM_MODULE            TIM3
+#define ENCODER_2_CNT                   ((uint16_t *)&(ENCODER_2_TIM_MODULE->CNT))
+#define ENCODER_3_TIM_MODULE            TIM1
+#define ENCODER_3_CNT                   ((uint16_t *)&(ENCODER_3_TIM_MODULE->CNT))
+
+/*
+ * Time calculation timer configuration
+ * APB1_CLK = 42000000, TIM_ARR = 42000, F = 50Hz
+ */
+#define ODOMETRY_TIM_MODULE             TIM6
+#define ODOMETRY_IRQN                   TIM6_DAC_IRQn
+#define ODOMETRY_IRQN_PRIORITY          (configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY + 2)
+#define ODOMETRY_TIM_ARR                42000
+#define ODOMETRY_TIM_PSC                20
+
 #endif
