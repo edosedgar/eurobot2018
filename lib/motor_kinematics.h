@@ -70,14 +70,14 @@ StaticSemaphore_t mutex_buffer;
  */
 #define MK_MAX_ROT_SPEED 22.4399f
 #define MK_LIN_KIN_MATRIX \
-        32.0750f,    -18.5158f,    0.0f, \
-        0.0f,        -37.0370f,    0.0f, \
+        -32.0750f,    18.5158f,    0.0f, \
+        0.0f,         37.0370f,    0.0f, \
         32.0750f,     18.5158f,    0.0f
 
 #define MK_ROT_KIN_MATRIX \
-        0.0f,   0.0f,   -6.3671f, \
-        0.0f,   0.0f,    6.3671f,  \
-        0.0f,   0.0f,    6.3671f
+        0.0f,   0.0f,    3.9405f, \
+        0.0f,   0.0f,   -3.9506f,  \
+        0.0f,   0.0f,    3.9506f
 
 #define MK_SPEED2PWM_A \
         0.03565f, \

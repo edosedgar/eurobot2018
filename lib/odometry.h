@@ -45,9 +45,9 @@ StaticTask_t odometry_tb;
  * Inverse kinematics matrix
  */
 #define ODOM_INV_KINEMATICS \
-        0.0156f,       0.0f,   -0.0156f, \
-       -0.0090f,     0.0180f,  -0.0090f, \
-       -0.0524f,    -0.0524f,  -0.0524f
+       -0.0156f,       0.0f,   -0.0156f, \
+        0.0090f,    -0.0180f,  -0.0090f, \
+        0.0844f,     0.0844f,  -0.0844f
 
 /*
  * Main freertos task
