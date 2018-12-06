@@ -219,7 +219,7 @@ static void odom_calc_glob_params(odometry_ctrl_t *odom_ctrl)
         /*
          * Rotation angle since last calculations
          */
-        float rot_angle = odom_ctrl->inst_local_speed[2] *
+        float rot_angle += odom_ctrl->inst_local_speed[2] *
                           (odom_ctrl->curr_time - odom_ctrl->prev_time);
         /*
          * Rotation matrix for ransformation of speed in robot coordinate system
@@ -227,8 +227,8 @@ static void odom_calc_glob_params(odometry_ctrl_t *odom_ctrl)
          */
         static arm_matrix_instance_f32 m_rot_matrix;
         float rot_matrix[4] = {
-                cosf(rot_angle+odom_ctrl->coordinate[2]), -sinf(rot_angle+odom_ctrl->coordinate[2]),
-                sinf(rot_angle+odom_ctrl->coordinate[2]),  cosf(rot_angle+odom_ctrl->coordinate[2])
+                cosf(rot_angle), -sinf(rot_angle),
+                sinf(rot_angle),  cosf(rot_angle)
         };
         /*
          * Robot instant global speed
@@ -260,7 +260,7 @@ static void odom_calc_glob_params(odometry_ctrl_t *odom_ctrl)
                                   (odom_ctrl->curr_time - odom_ctrl->prev_time);
         odom_ctrl->coordinate[1] += odom_ctrl->inst_global_speed[1] *
                                   (odom_ctrl->curr_time - odom_ctrl->prev_time);
-        odom_ctrl->coordinate[2] += rot_angle;
+        odom_ctrl->coordinate[2] = rot_angle;
         odom_ctrl->coordinate[2] = normalize_angle(odom_ctrl->coordinate[2]);
         return;
 }
