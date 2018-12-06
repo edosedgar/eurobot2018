@@ -227,8 +227,8 @@ static void odom_calc_glob_params(odometry_ctrl_t *odom_ctrl)
          */
         static arm_matrix_instance_f32 m_rot_matrix;
         float rot_matrix[4] = {
-                cosf(rot_angle), -sinf(rot_angle),
-                sinf(rot_angle),  cosf(rot_angle)
+                cosf(rot_angle+odom_ctrl->coordinate[2]), -sinf(rot_angle+odom_ctrl->coordinate[2]),
+                sinf(rot_angle+odom_ctrl->coordinate[2]),  cosf(rot_angle+odom_ctrl->coordinate[2])
         };
         /*
          * Robot instant global speed
