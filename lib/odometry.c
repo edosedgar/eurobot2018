@@ -168,8 +168,7 @@ static void odom_calc_wheels_speeds(odometry_ctrl_t *odom_ctrl)
                                                 ENCODER_TIM_CNT_INITIAL_VALUE;
                 *(odom_ctrl->p_enc_ticks[i]) = ENCODER_TIM_CNT_INITIAL_VALUE;
                 odom_ctrl->wheel_speed[i] =
-                ((float) odom_ctrl->delta_enc_ticks[i] * TICKS_TO_RAD_COEF) /
-                (odom_ctrl->curr_time - odom_ctrl->prev_time);
+                ((float) odom_ctrl->delta_enc_ticks[i] * TICKS_TO_RAD_COEF);
         }
         return;
 }
@@ -219,8 +218,8 @@ static void odom_calc_glob_params(odometry_ctrl_t *odom_ctrl)
         /*
          * Rotation angle since last calculations
          */
-        float rot_angle += odom_ctrl->inst_local_speed[2] *
-                          (odom_ctrl->curr_time - odom_ctrl->prev_time);
+        float rot_angle = odom_ctrl->coordinate[2] + odom_ctrl->inst_local_speed[2];
+        rot_angle = normalize_angle(rot_angle);
         /*
          * Rotation matrix for ransformation of speed in robot coordinate system
          * to global one
@@ -256,10 +255,8 @@ static void odom_calc_glob_params(odometry_ctrl_t *odom_ctrl)
         /*
          * Robot global coordinates calculation
          */
-        odom_ctrl->coordinate[0] += odom_ctrl->inst_global_speed[0] *
-                                  (odom_ctrl->curr_time - odom_ctrl->prev_time);
-        odom_ctrl->coordinate[1] += odom_ctrl->inst_global_speed[1] *
-                                  (odom_ctrl->curr_time - odom_ctrl->prev_time);
+        odom_ctrl->coordinate[0] += odom_ctrl->inst_global_speed[0] ;
+        odom_ctrl->coordinate[1] += odom_ctrl->inst_global_speed[1] ;
         odom_ctrl->coordinate[2] = rot_angle;
         odom_ctrl->coordinate[2] = normalize_angle(odom_ctrl->coordinate[2]);
         return;
