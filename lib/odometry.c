@@ -258,7 +258,6 @@ static void odom_calc_glob_params(odometry_ctrl_t *odom_ctrl)
         odom_ctrl->coordinate[0] += odom_ctrl->inst_global_speed[0] ;
         odom_ctrl->coordinate[1] += odom_ctrl->inst_global_speed[1] ;
         odom_ctrl->coordinate[2] = rot_angle;
-        odom_ctrl->coordinate[2] = normalize_angle(odom_ctrl->coordinate[2]);
         return;
 }
 

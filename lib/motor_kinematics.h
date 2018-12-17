@@ -75,9 +75,9 @@ StaticSemaphore_t mutex_buffer;
         32.0750f,     18.5158f,    0.0f
 
 #define MK_ROT_KIN_MATRIX \
-        0.0f,   0.0f,    3.9506f, \
-        0.0f,   0.0f,   -3.9506f,  \
-        0.0f,   0.0f,    3.9506f
+        0.0f,   0.0f,    3.67f,   \
+        0.0f,   0.0f,   -3.67f,  \
+        0.0f,   0.0f,    3.67f
 
 #define MK_SPEED2PWM_A \
         0.03565f, \
