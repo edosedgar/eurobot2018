@@ -58,4 +58,20 @@
 #define ENCODER_3_CHB_PIN                   LL_GPIO_PIN_9
 #define ENCODER_3_PIN_AF                    LL_GPIO_AF_1
 
+
+/*
+ * Stepper pinout 
+*/
+
+#define STEP_COIL1_PORT                     GPIOD
+#define STEP_COIL1_PIN      	            LL_GPIO_PIN_11
+#define STEP_COIL2_PORT 	                GPIOD
+#define STEP_COIL2_PIN	                    LL_GPIO_PIN_10
+#define STEP_COIL3_PORT                     GPIOD
+#define STEP_COIL3_PIN      	            LL_GPIO_PIN_9
+#define STEP_COIL4_PORT 	                GPIOD
+#define STEP_COIL4_PIN	                    LL_GPIO_PIN_8
+
 #endif
+
+
