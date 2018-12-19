@@ -88,4 +88,15 @@
 #define ODOMETRY_TIM_ARR                42000
 #define ODOMETRY_TIM_PSC                20
 
+
+/*
+ * Steper configuration 
+*/
+
+#define STEP_TIM_MODULE                 TIM7
+#define STEP_IRQN                       TIM7_IRQn
+#define STEP_IRQN_PRIORITY              (configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY + 2)
+#define STEP_TIM_ARR                    42000
+#define STEP_TIM_PSC                    2000
+
 #endif
